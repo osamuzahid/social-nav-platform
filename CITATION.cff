@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: social-nav-platform
+message: Local handover candidate; not a public release.
+type: software
+authors:
+  - family-names: Zahid
+    given-names: Osama
+license: MIT
+version: 0.1.0-candidate
+date-released: "2026-09-06"
