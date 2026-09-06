@@ -1,0 +1,9 @@
+{
+  "build": {
+    "symlink-install": true,
+    "paths": [
+      "src/vendor/people_msgs",
+      "src/vendor/pedsim_msgs"
+    ]
+  }
+}

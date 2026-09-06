@@ -1,0 +1,15 @@
+schema_version: 1
+id: string
+world: string
+robots:
+  - id: primary
+    model: stretch | reachy
+crowd: "<world>_crowd"
+route: "<world>-campaign"
+planner: nav2/smac-2d | esc/extended-social-comfort
+metrics: campaign-v1
+sensors:
+  lidar: true
+  cameras: true
+  imu: true
+# v1 requires exactly one robot. Cameras stay on for scored hops.
