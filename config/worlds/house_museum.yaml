@@ -1,0 +1,6 @@
+schema_version: 1
+id: house_museum
+usd: worlds/house_museum.usd
+occupancy: maps/house_museum.yaml
+octomap: maps/house_museum.bt
+crowd: house_museum_crowd

@@ -1,0 +1,16 @@
+schema_version: 1
+id: house_museum-reachy-esc
+world: house_museum
+robots:
+  - id: primary
+    model: reachy
+crowd: house_museum_crowd
+route: house_museum-campaign
+planner: esc/extended-social-comfort
+metrics: campaign-v1
+sensors:
+  lidar: true
+  cameras: true
+  imu: true
+  esc_bounds_x: "-15.0,10.0"
+  esc_bounds_y: "-10.0,15.0"

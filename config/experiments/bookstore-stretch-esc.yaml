@@ -1,0 +1,14 @@
+schema_version: 1
+id: bookstore-stretch-esc
+world: bookstore
+robots:
+  - id: primary
+    model: stretch
+crowd: bookstore_crowd
+route: bookstore-campaign
+planner: esc/extended-social-comfort
+metrics: campaign-v1
+sensors:
+  lidar: true
+  cameras: true
+  imu: true

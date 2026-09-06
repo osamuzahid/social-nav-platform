@@ -1,0 +1,6 @@
+schema_version: 1
+id: bookstore
+usd: worlds/bookstore.usd
+occupancy: maps/bookstore.yaml
+octomap: maps/bookstore.bt
+crowd: bookstore_crowd

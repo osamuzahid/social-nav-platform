@@ -1,0 +1,16 @@
+schema_version: 1
+id: small_house-stretch-nav2
+world: small_house
+robots:
+  - id: primary
+    model: stretch
+crowd: small_house_crowd
+route: small_house-campaign
+planner: nav2/smac-2d
+metrics: campaign-v1
+sensors:
+  lidar: true
+  cameras: true
+  imu: true
+  esc_bounds_x: "-10.0,12.0"
+  esc_bounds_y: "-8.0,8.0"

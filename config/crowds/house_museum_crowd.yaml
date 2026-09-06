@@ -1,0 +1,130 @@
+hunav_loader:
+  ros__parameters:
+    yaml_base_name: house_museum_crowd
+    simulator: Isaac Sim
+    map: house_museum
+    publish_people: true
+    # Reachy (−0.50, −3.00) yaw 1.57 → (−0.50, 1.00) yaw 1.57: north along the
+    # south hall. Occupancy PNG joins this hall to a north gallery
+    # through a gap the USD floor does not; a cross-room hop lets A*
+    # pull people into that gap. This hop and A1 stay in the hall.
+    # A3/A4 stand on it. A5 stands off-hop (4 m packing). A2 loops the
+    # northeast gallery — no patrol crosses rooms.
+    plan_goals_on_map: true
+    map_yaml: house_museum.yaml
+    plan_waypoint_spacing_m: 1.0
+    plan_inflation_radius_m: 0.60
+    plan_from_init_pose: true
+    ignore_obstacle_rays: false
+    robot_init_pose:
+      x: -0.50
+      y: -3.00
+      z: 0.0
+      h: 1.57
+    campaign_goal:
+      x: -0.50
+      y: 1.00
+    global_goals:
+      # A1 — north-south shuttle on the robot hall
+      1: {x: -0.50, y: -3.00}
+      2: {x: -0.50, y: -1.00}
+      3: {x: -0.50, y: 1.00}
+      # A2 — northeast gallery pocket
+      4: {x: 2.00, y: 9.50}
+      5: {x: 1.00, y: 8.50}
+      6: {x: 2.00, y: 7.00}
+      # Standing — staggered on the hop, not colinear
+      7: {x: -1.50, y: -1.00}
+      8: {x: 0.50, y: -1.00}
+      9: {x: 0.75, y: 4.95}
+    agents:
+      - agent1
+      - agent2
+      - agent3
+      - agent4
+      - agent5
+    agent1:
+      id: 1
+      group_id: -1
+      skin: 1
+      max_vel: 0.88
+      radius: 0.4
+      goal_radius: 0.6
+      cyclic_goals: true
+      init_pose: {x: -0.50, y: 1.00, z: 0.0, h: -1.57}
+      behavior:
+        type: 2
+        configuration: 0
+        goal_force_factor: 10.0
+        obstacle_force_factor: 2.0
+        social_force_factor: 5.0
+        other_force_factor: 20.0
+      goals: ["1", "2", "3"]
+    agent2:
+      id: 2
+      group_id: -1
+      skin: 2
+      max_vel: 0.90
+      radius: 0.4
+      goal_radius: 0.6
+      cyclic_goals: true
+      init_pose: {x: 2.00, y: 9.50, z: 0.0, h: -1.57}
+      behavior:
+        type: 2
+        configuration: 0
+        goal_force_factor: 10.0
+        obstacle_force_factor: 2.0
+        social_force_factor: 5.0
+        other_force_factor: 20.0
+      goals: ["4", "5", "6"]
+    agent3:
+      id: 3
+      group_id: -1
+      skin: 3
+      max_vel: 0.0
+      radius: 0.4
+      goal_radius: 0.6
+      cyclic_goals: true
+      init_pose: {x: -1.50, y: -1.00, z: 0.0, h: 1.57}
+      behavior:
+        type: 2
+        configuration: 0
+        goal_force_factor: 0.0
+        obstacle_force_factor: 0.0
+        social_force_factor: 0.0
+        other_force_factor: 0.0
+      goals: ["7"]
+    agent4:
+      id: 4
+      group_id: -1
+      skin: 4
+      max_vel: 0.0
+      radius: 0.4
+      goal_radius: 0.6
+      cyclic_goals: true
+      init_pose: {x: 0.50, y: -1.00, z: 0.0, h: 1.57}
+      behavior:
+        type: 2
+        configuration: 0
+        goal_force_factor: 0.0
+        obstacle_force_factor: 0.0
+        social_force_factor: 0.0
+        other_force_factor: 0.0
+      goals: ["8"]
+    agent5:
+      id: 5
+      group_id: -1
+      skin: 5
+      max_vel: 0.0
+      radius: 0.4
+      goal_radius: 0.6
+      cyclic_goals: true
+      init_pose: {x: 0.75, y: 4.95, z: 0.0, h: 1.57}
+      behavior:
+        type: 2
+        configuration: 0
+        goal_force_factor: 0.0
+        obstacle_force_factor: 0.0
+        social_force_factor: 0.0
+        other_force_factor: 0.0
+      goals: ["9"]

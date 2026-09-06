@@ -1,0 +1,6 @@
+schema_version: 1
+id: small_warehouse
+usd: worlds/small_warehouse.usd
+occupancy: maps/small_warehouse.yaml
+octomap: maps/small_warehouse.bt
+crowd: small_warehouse_crowd

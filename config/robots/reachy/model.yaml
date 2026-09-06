@@ -1,0 +1,10 @@
+schema_version: 1
+id: reachy
+descriptor: config/robots/reachy/robot.yaml
+usd: robots/reachy/reachy.usd
+nav2_params: config/planners/nav2_reachy.yaml
+esc_params: config/planners/esc_reachy.yaml
+robot_radius: 0.25
+laser_frame: lidar_link
+drive: kinematic
+physics: none

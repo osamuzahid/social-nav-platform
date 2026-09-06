@@ -1,0 +1,16 @@
+schema_version: 1
+id: office-reachy-nav2
+world: office
+robots:
+  - id: primary
+    model: reachy
+crowd: office_crowd
+route: office-campaign
+planner: nav2/smac-2d
+metrics: campaign-v1
+sensors:
+  lidar: true
+  cameras: true
+  imu: true
+  esc_bounds_x: "-35.0,25.0"
+  esc_bounds_y: "-2.0,25.0"

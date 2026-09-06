@@ -1,0 +1,5 @@
+schema_version: 1
+id: hospital-campaign
+world: hospital
+spawn: {x: 0.5, y: -7.8, yaw: 3.1416}
+goal: {x: -4.3, y: -0.5, yaw: 1.57}

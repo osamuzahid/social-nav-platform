@@ -1,0 +1,16 @@
+schema_version: 1
+id: small_warehouse-reachy-esc
+world: small_warehouse
+robots:
+  - id: primary
+    model: reachy
+crowd: small_warehouse_crowd
+route: small_warehouse-campaign
+planner: esc/extended-social-comfort
+metrics: campaign-v1
+sensors:
+  lidar: true
+  cameras: true
+  imu: true
+  esc_bounds_x: "-8.0,8.0"
+  esc_bounds_y: "-12.0,12.0"

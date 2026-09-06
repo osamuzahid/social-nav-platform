@@ -1,0 +1,5 @@
+schema_version: 1
+id: house_museum-campaign
+world: house_museum
+spawn: {x: -0.5, y: -3.0, yaw: 1.57}
+goal: {x: -0.5, y: 1.0, yaw: 1.57}

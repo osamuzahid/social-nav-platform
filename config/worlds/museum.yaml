@@ -1,0 +1,6 @@
+schema_version: 1
+id: museum
+usd: worlds/museum.usd
+occupancy: maps/museum.yaml
+octomap: maps/museum.bt
+crowd: museum_crowd

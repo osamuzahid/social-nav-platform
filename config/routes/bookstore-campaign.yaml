@@ -1,0 +1,5 @@
+schema_version: 1
+id: bookstore-campaign
+world: bookstore
+spawn: {x: 0.2, y: 1.0, yaw: 0.0}
+goal: {x: -5.0, y: 6.5, yaw: 1.57}

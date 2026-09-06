@@ -1,0 +1,14 @@
+schema_version: 1
+id: bookstore-stretch-nav2
+world: bookstore
+robots:
+  - id: primary
+    model: stretch
+crowd: bookstore_crowd
+route: bookstore-campaign
+planner: nav2/smac-2d
+metrics: campaign-v1
+sensors:
+  lidar: true
+  cameras: true
+  imu: true

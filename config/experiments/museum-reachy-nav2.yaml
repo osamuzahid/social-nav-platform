@@ -1,0 +1,14 @@
+schema_version: 1
+id: museum-reachy-nav2
+world: museum
+robots:
+  - id: primary
+    model: reachy
+crowd: museum_crowd
+route: museum-campaign
+planner: nav2/smac-2d
+metrics: campaign-v1
+sensors:
+  lidar: true
+  cameras: true
+  imu: true

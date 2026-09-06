@@ -1,0 +1,10 @@
+schema_version: 1
+id: stretch
+descriptor: config/robots/stretch/robot.yaml
+usd: robots/stretch/stretch.usd
+nav2_params: config/planners/nav2_stretch.yaml
+esc_params: config/planners/esc_stretch.yaml
+robot_radius: 0.33
+laser_frame: laser
+drive: kinematic
+physics: none

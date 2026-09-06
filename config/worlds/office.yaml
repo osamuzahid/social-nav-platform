@@ -1,0 +1,6 @@
+schema_version: 1
+id: office
+usd: worlds/office.usd
+occupancy: maps/office.yaml
+octomap: maps/office.bt
+crowd: office_crowd

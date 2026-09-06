@@ -1,0 +1,5 @@
+schema_version: 1
+id: office-campaign
+world: office
+spawn: {x: -6.0, y: 4.0, yaw: 1.57}
+goal: {x: 6.0, y: 4.0, yaw: 1.57}

@@ -1,0 +1,6 @@
+schema_version: 1
+id: small_house
+usd: worlds/small_house.usd
+occupancy: maps/small_house.yaml
+octomap: maps/small_house.bt
+crowd: small_house_crowd

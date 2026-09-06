@@ -1,0 +1,6 @@
+schema_version: 1
+id: hospital
+usd: worlds/hospital.usd
+occupancy: maps/hospital.yaml
+octomap: maps/hospital.bt
+crowd: hospital_crowd

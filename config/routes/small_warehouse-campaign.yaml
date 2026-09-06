@@ -1,0 +1,5 @@
+schema_version: 1
+id: small_warehouse-campaign
+world: small_warehouse
+spawn: {x: 0.0, y: 0.0, yaw: -1.57}
+goal: {x: 0.0, y: -8.0, yaw: -1.57}
