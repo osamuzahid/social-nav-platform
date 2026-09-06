@@ -1,0 +1,2 @@
+Vendored from stephenadhi/pedsim_ros branch humble (msgs-only).
+Source SHA: 09cf5d40e28636165f90050d63c0c5eb52641387

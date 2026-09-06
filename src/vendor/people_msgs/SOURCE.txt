@@ -1,0 +1,3 @@
+Vendored from wg-perception/people (people_msgs, ROS 2).
+Lab freeze tree SHA: d656cc6a048cdcac227befd1c31091dd9441c9db
+Upstream people repo commit is unknown.
