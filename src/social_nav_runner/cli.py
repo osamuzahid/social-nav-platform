@@ -74,35 +74,37 @@ def _cmd_run(args: argparse.Namespace) -> int:
             print(f"configuration_error {err}", file=sys.stderr)
         return 1
     exp = load_experiment(path, root)
-    session = {
-        "experiment": exp.id,
-        "world": exp.world,
-        "robot": exp.robot,
-        "stack": exp.stack,
-        "planner": exp.planner,
-        "spawn": exp.spawn,
-        "goal": exp.goal,
-        "crowd": exp.crowd,
-        "cameras": exp.cameras,
-        "created": datetime.now(timezone.utc).isoformat(),
-        "execute": bool(args.execute),
-    }
-    if args.execute:
-        print(
-            "simulator_startup_error: native Isaac execute is not wired in this "
-            "candidate (no GNOME terminal farm; one supervisor is Phase 6).",
-            file=sys.stderr,
-        )
-        print(json.dumps(session, indent=2, sort_keys=True))
-        return 3
-    out = Path(args.session_dir) if args.session_dir else None
-    if out is None:
-        stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-        out = root / "cache" / "sessions" / f"{stamp}_{exp.id}"
-    out.mkdir(parents=True, exist_ok=True)
-    (out / "plan.json").write_text(json.dumps(session, indent=2, sort_keys=True) + "\n")
-    print(str(out / "plan.json"))
-    return 0
+    if not args.execute:
+        session = {
+            "experiment": exp.id,
+            "world": exp.world,
+            "robot": exp.robot,
+            "stack": exp.stack,
+            "planner": exp.planner,
+            "spawn": exp.spawn,
+            "goal": exp.goal,
+            "crowd": exp.crowd,
+            "cameras": exp.cameras,
+            "created": datetime.now(timezone.utc).isoformat(),
+            "execute": False,
+        }
+        out = Path(args.session_dir) if args.session_dir else None
+        if out is None:
+            stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+            out = root / "cache" / "sessions" / f"{stamp}_{exp.id}"
+        out.mkdir(parents=True, exist_ok=True)
+        (out / "plan.json").write_text(json.dumps(session, indent=2, sort_keys=True) + "\n")
+        print(str(out / "plan.json"))
+        return 0
+    from social_nav_runner.supervisor import execute_experiment
+
+    session_dir = Path(args.session_dir) if args.session_dir else None
+    return execute_experiment(
+        args.experiment_id,
+        root=root,
+        session_dir=session_dir,
+        monitor=bool(getattr(args, "monitor", False)),
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -124,6 +126,7 @@ def main(argv: list[str] | None = None) -> int:
     p_run.add_argument("experiment_id")
     p_run.add_argument("--execute", action="store_true")
     p_run.add_argument("--session-dir")
+    p_run.add_argument("--monitor", action="store_true", help="Open RViz after /scan")
     p_run.set_defaults(func=_cmd_run)
 
     args = parser.parse_args(argv)

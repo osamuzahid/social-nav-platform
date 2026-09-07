@@ -38,7 +38,7 @@ def test_no_lab_home_in_text() -> None:
     for path in ROOT.rglob("*"):
         if not path.is_file() or path.suffix in skip:
             continue
-        if ".git" in path.parts or "tests" in path.parts:
+        if ".git" in path.parts or "tests" in path.parts or "cache" in path.parts:
             continue
         try:
             text = path.read_text(encoding="utf-8")
@@ -84,8 +84,71 @@ def test_components_lock_has_full_shas() -> None:
         assert all(c in "0123456789abcdef" for c in sha)
 
 
-def test_run_execute_fails_closed() -> None:
+def test_run_execute_fails_closed_without_isaac() -> None:
     from social_nav_runner.cli import main
 
     rc = main(["run", "museum-reachy-esc", "--execute"])
     assert rc == 3
+
+
+def test_unknown_experiment() -> None:
+    from social_nav_runner.cli import main
+
+    assert main(["run", "not-a-real-hop", "--execute"]) == 2
+
+
+def test_refuse_archive_overwrite() -> None:
+    from social_nav_runner.cli import main
+
+    dest = ROOT / "results" / "runs" / "museum-reachy-nav2"
+    dest.mkdir(parents=True, exist_ok=True)
+    marker = dest / "stale.txt"
+    marker.write_text("keep", encoding="utf-8")
+    try:
+        assert main(["run", "museum-reachy-nav2", "--execute"]) == 4
+    finally:
+        marker.unlink(missing_ok=True)
+        try:
+            dest.rmdir()
+        except OSError:
+            pass
+
+
+def test_cite_metrics_last_row(tmp_path) -> None:
+    from social_nav_runner.evaluator import cite_metrics
+
+    csv = tmp_path / "metrics.csv"
+    csv.write_text("h1,h2\na,1\nb,2\n", encoding="utf-8")
+    cited = cite_metrics(tmp_path)
+    assert cited is not None
+    assert cited.read_text(encoding="utf-8") == "h1,h2\nb,2\n"
+
+
+def test_overlay_env_points_at_siblings() -> None:
+    from social_nav_runner.layout import Layout
+
+    layout = Layout.discover(ROOT)
+    env = layout.overlay_env()
+    assert env["SOCIAL_NAV_SCENARIOS"].endswith("config/crowds")
+    assert env["SOCIAL_NAV_ROBOTS"].endswith("config/robots")
+    assert "hunav-isaac-wrapper-jazzy" in env["SOCIAL_NAV_WRAPPER"]
+
+
+def test_process_group_terminates_children() -> None:
+    import os
+    import time
+
+    from social_nav_runner.processes import ProcessGroup
+
+    pg = ProcessGroup()
+    log = ROOT / "cache" / "sessions"
+    log.mkdir(parents=True, exist_ok=True)
+    env = os.environ.copy()
+    pg.start(["sleep", "30"], env=env, log_path=log / "test_pg_a.log")
+    pg.start(["sleep", "30"], env=env, log_path=log / "test_pg_b.log")
+    assert pg.pgid is not None
+    assert os.getpgid(pg._children[0].pid) == pg.pgid
+    assert os.getpgid(pg._children[1].pid) == pg.pgid
+    pg.terminate(grace_s=5.0)
+    time.sleep(0.2)
+    assert all(p.poll() is not None for p in pg._children)

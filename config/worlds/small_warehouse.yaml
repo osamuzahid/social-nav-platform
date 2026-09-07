@@ -4,3 +4,6 @@ usd: worlds/small_warehouse.usd
 occupancy: maps/small_warehouse.yaml
 octomap: maps/small_warehouse.bt
 crowd: small_warehouse_crowd
+esc_bounds_x: [-8.0, 8.0]
+esc_bounds_y: [-12.0, 12.0]
+

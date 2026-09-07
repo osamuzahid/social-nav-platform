@@ -4,3 +4,6 @@ usd: worlds/small_house.usd
 occupancy: maps/small_house.yaml
 octomap: maps/small_house.bt
 crowd: small_house_crowd
+esc_bounds_x: [-10.0, 12.0]
+esc_bounds_y: [-8.0, 8.0]
+

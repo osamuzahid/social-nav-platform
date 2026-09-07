@@ -19,11 +19,15 @@ results: museum Reachy and hospital Stretch `metrics_cited.csv` only.
 ./scripts/social-nav explain museum-reachy-nav2
 ./scripts/social-nav validate
 ./scripts/social-nav run museum-reachy-nav2
+./scripts/social-nav run museum-reachy-nav2 --execute
 ```
 
-`run` validates and writes a session plan. Native Isaac execute is a later
-overlay (one supervisor; not a set of GNOME terminals). Cameras stay **on**
-for scored hops.
+`run` without `--execute` validates and writes a session plan. `--execute`
+starts Isaac keepalive in one process group, waits for `/scan` and `/odom`,
+starts hunav_evaluator, then **either** Nav2 **or** ESC and sends the
+descriptor goal. Cameras stay **on**. Optional `--monitor` opens RViz after
+`/scan`. `SOCIAL_NAV_ROS_SETUP` must point at a workspace that provides HuNav
+nodes. Do not pass `--disable-cameras`.
 
 ## Bootstrap
 

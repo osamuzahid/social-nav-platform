@@ -1,1 +1,1 @@
-"""ROS 2 package stub. Launch adapters wait for a single supervisor (Phase 6)."""
+"""Launch adapters owned by `social-nav run --execute` (one process group)."""

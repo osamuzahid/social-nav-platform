@@ -4,3 +4,6 @@ usd: worlds/house_museum.usd
 occupancy: maps/house_museum.yaml
 octomap: maps/house_museum.bt
 crowd: house_museum_crowd
+esc_bounds_x: [-15.0, 10.0]
+esc_bounds_y: [-10.0, 15.0]
+

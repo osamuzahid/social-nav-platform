@@ -3,6 +3,7 @@
 /build/
 /install/
 /log/
+/results/runs/
 __pycache__/
 *.pyc
 .pytest_cache/

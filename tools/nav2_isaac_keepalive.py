@@ -40,28 +40,22 @@ os.environ.setdefault("HUNAV_START_EVALUATOR", "0")
 # Headless Nav2 smoke: no viewport behavior overlays.
 os.environ.setdefault("HUNAV_BEHAVIOR_LABELS", "0")
 
-REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-SRC = os.path.join(REPO, "src")
+WRAPPER = os.environ.get("SOCIAL_NAV_WRAPPER", "").strip()
+if not WRAPPER:
+    raise SystemExit("SOCIAL_NAV_WRAPPER is required (wrapper source checkout)")
+SRC = os.path.join(os.path.abspath(WRAPPER), "src")
 if SRC not in sys.path:
     sys.path.insert(0, SRC)
 
 
 def _scenario(name: str) -> str:
     fname = name if name.endswith(".yaml") else f"{name}.yaml"
-    for c in (
-        os.path.join(SRC, "scenarios", fname),
-        os.path.join(
-            REPO,
-            "..",
-            "..",
-            "install",
-            "hunav_isaac_wrapper",
-            "share",
-            "hunav_isaac_wrapper",
-            "scenarios",
-            fname,
-        ),
-    ):
+    candidates = []
+    overlay = os.environ.get("SOCIAL_NAV_SCENARIOS", "").strip()
+    if overlay:
+        candidates.append(os.path.join(overlay, fname))
+    candidates.append(os.path.join(SRC, "scenarios", fname))
+    for c in candidates:
         if os.path.isfile(c):
             return os.path.abspath(c)
     raise FileNotFoundError(fname)

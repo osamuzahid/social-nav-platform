@@ -64,6 +64,12 @@ else
   say "NOTE: Isaac python not found at $isaac (set SOCIAL_NAV_ISAAC_PATH)"
 fi
 
+if [[ -n "${SOCIAL_NAV_ROS_SETUP:-}" ]]; then
+  say "ros_overlay: $SOCIAL_NAV_ROS_SETUP"
+else
+  say "NOTE: set SOCIAL_NAV_ROS_SETUP to a workspace that provides hunav_agent_manager"
+fi
+
 if [[ "$fail" -ne 0 ]]; then
   exit 1
 fi

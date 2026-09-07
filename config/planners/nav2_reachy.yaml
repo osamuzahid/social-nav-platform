@@ -67,6 +67,9 @@ bt_navigator:
       plugin: "nav2_bt_navigator::NavigateToPoseNavigator"
     navigate_through_poses:
       plugin: "nav2_bt_navigator::NavigateThroughPosesNavigator"
+    # Nav2 opens this as a filesystem path (cwd / ament share), not relative
+    # to this YAML. social-nav run --execute writes a session copy with an
+    # absolute path to config/planners/navigate_to_pose_w_replanning_20hz.xml.
     default_nav_to_pose_bt_xml: "navigate_to_pose_w_replanning_20hz.xml"
 
     # plugin_lib_names is used to add custom BT plugins to the executor (vector of strings).

@@ -27,11 +27,14 @@ Git example results: museum Reachy and hospital Stretch `metrics_cited.csv`
 only. The other five pairs are named config. Full 14 CSVs stay the private
 campaign release.
 
-## Run lifecycle (this candidate)
+## Run lifecycle
 
 `social-nav run <id>` validates and writes `cache/sessions/.../plan.json`.
-`--execute` prints `simulator_startup_error` and exits 3. One supervisor
-process is Phase 6. Do not restore a GNOME terminal farm.
+`--execute` starts Isaac + Nav2 **or** ESC plus hunav_evaluator in one process
+group (no GNOME terminals). Failed goals stay in `cache/sessions/`.
+`GOAL=SUCCEEDED` with `metrics_cited.csv` copies into `results/runs/<id>/`
+and refuses overwrite. Set `SOCIAL_NAV_ROS_SETUP` before `--execute`. Cameras
+stay on. Do not pass `--disable-cameras`.
 
 ## Not in this tree
 
