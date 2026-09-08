@@ -2,7 +2,16 @@
 
 Supported runtime: **Ubuntu 24.04 x86-64**, **ROS 2 Jazzy**, **NVIDIA Isaac Sim 6.0.1** (workstation install). One robot per episode. Cameras stay on.
 
-The lab checkout is five sibling directories. Clone or copy them next to each other:
+The lab checkout is five sibling directories. Private remotes (student account; later transfer to the lab org):
+
+```bash
+mkdir -p ~/social-nav && cd ~/social-nav
+git clone --branch v0.2.1 git@github.com:osamuzahid/social-nav-platform.git
+git clone --branch v0.2.1 git@github.com:osamuzahid/hunav-isaac-wrapper-jazzy.git
+git clone --branch v0.2.1 git@github.com:osamuzahid/hunav-sim-jazzy.git
+git clone --branch v0.2.1 git@github.com:osamuzahid/esc-nav-jazzy.git
+git clone --branch v0.2.1 git@github.com:osamuzahid/social-nav-assets.git
+```
 
 ```text
 <workspace>/
@@ -13,13 +22,14 @@ The lab checkout is five sibling directories. Clone or copy them next to each ot
 └── social-nav-assets
 ```
 
-Exact SHAs: [components.lock.yaml](../components.lock.yaml). Isaac Sim is not in git. World and robot USDs ship as a checksummed tarball, not Git LFS.
+Exact SHAs: [components.lock.yaml](../components.lock.yaml) (`v0.2.1` matches). Isaac Sim is not in git. World and robot USDs ship as a checksummed tarball, not Git LFS.
 
 ## 1. System packages
 
 Isaac Sim must already be installed (default `~/isaacsim/python.sh`, or set `SOCIAL_NAV_ISAAC_PATH`).
 
 ```bash
+cd social-nav-platform
 source /opt/ros/jazzy/setup.bash
 sudo ./scripts/bootstrap.sh --install-system-deps
 ```
@@ -28,13 +38,16 @@ HuNav also needs **lightsfm** headers at `/usr/local/include/lightsfm` (build [r
 
 ## 2. Prebuilt USDs
 
-Place `dist/prebuilt-assets-v0.1.0-candidate.tar.zst` under `social-nav-assets/` (checksum in that repo’s `SHA256SUMS` and in the lock file). Then:
+Download the Release tarball into the assets tree, then unpack:
 
 ```bash
+mkdir -p ../social-nav-assets/dist
+gh release download v0.2.1 --repo osamuzahid/social-nav-assets \
+  --pattern 'prebuilt-assets-*.tar.zst' -D ../social-nav-assets/dist
 ./scripts/unpack-assets.sh
 ```
 
-Occupancy maps and octomaps are already in git under `social-nav-assets/maps/`.
+Checksum is in `social-nav-assets/SHA256SUMS` and in the lock file. Occupancy maps and octomaps are already in git under `social-nav-assets/maps/`.
 
 ## 3. Build overlays
 

@@ -4,7 +4,7 @@
 
 Install path for sibling overlays: `unpack-assets.sh`, `build.sh` (HuNav,
 wrapper, ESC), doctor checks campaign USDs. Docs: installation, quickstart,
-extending, troubleshooting.
+extending, troubleshooting. Private remotes under `osamuzahid` (`v0.2.1`).
 
 ## 0.2.0 — 2026-09-08
 
