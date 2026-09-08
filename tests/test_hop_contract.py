@@ -9,6 +9,7 @@ from social_nav_runner.esc import planning_bounds_argv
 from social_nav_runner.experiments import platform_root
 from social_nav_runner.layout import Layout
 from social_nav_runner.nav2 import (
+    bt_navigator_listed,
     materialize_nav2_params,
     nav2_bringup_failure,
     nav2_goal_verdict,
@@ -56,6 +57,13 @@ def test_lifecycle_active_not_inactive() -> None:
     assert lifecycle_is_active("active [3]")
     assert not lifecycle_is_active("inactive [2]")
     assert not lifecycle_is_active("")
+
+
+def test_bt_navigator_listed() -> None:
+    assert bt_navigator_listed("/bt_navigator\n/controller_server\n")
+    assert bt_navigator_listed("bt_navigator\n")
+    assert not bt_navigator_listed("/controller_server\n")
+    assert not bt_navigator_listed("")
 
 
 def test_esc_bounds_match_freeze_argv() -> None:

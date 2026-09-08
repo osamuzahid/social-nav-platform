@@ -72,21 +72,25 @@ def wait_action(env: dict[str, str], name: str, timeout_s: float) -> None:
     raise TimeoutError(f"action {name} not advertised")
 
 
+def list_nodes(env: dict[str, str]) -> str:
+    try:
+        proc = subprocess.run(
+            sourced_argv(["ros2", "node", "list"]),
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=8.0,
+            check=False,
+        )
+    except subprocess.TimeoutExpired:
+        return ""
+    return proc.stdout or ""
+
+
 def wait_node(env: dict[str, str], name: str, timeout_s: float) -> None:
     deadline = time.time() + timeout_s
     while time.time() < deadline:
-        try:
-            proc = subprocess.run(
-                sourced_argv(["ros2", "node", "list"]),
-                env=env,
-                capture_output=True,
-                text=True,
-                timeout=8.0,
-                check=False,
-            )
-        except subprocess.TimeoutExpired:
-            proc = None
-        if proc is not None and name in (proc.stdout or ""):
+        if name in list_nodes(env):
             return
         time.sleep(1.0)
     raise TimeoutError(f"node {name} not listed")

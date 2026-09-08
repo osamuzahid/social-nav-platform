@@ -13,7 +13,9 @@ is advertised while the node is inactive and then rejects goals.
 from __future__ import annotations
 
 import math
+import os
 import re
+import subprocess
 import time
 from pathlib import Path
 
@@ -22,7 +24,7 @@ from social_nav_runner.experiments import Experiment
 from social_nav_runner.layout import Layout
 from social_nav_runner.processes import ProcessGroup
 from social_nav_runner.rosenv import sourced_argv
-from social_nav_runner.waiters import lifecycle_get, lifecycle_is_active, wait_action
+from social_nav_runner.waiters import lifecycle_get, lifecycle_is_active, list_nodes, wait_action
 
 NAV2_BT_XML_NAME = "navigate_to_pose_w_replanning_20hz.xml"
 _BT_XML_LINE = re.compile(
@@ -60,6 +62,27 @@ def nav2_bringup_failure(log_text: str) -> str | None:
         if needle in log_text:
             return needle
     return None
+
+
+def bt_navigator_listed(node_list: str) -> bool:
+    names = {ln.strip() for ln in node_list.splitlines() if ln.strip()}
+    return "/bt_navigator" in names or "bt_navigator" in names
+
+
+def bt_navigator_proc_alive() -> bool:
+    proc = Path("/proc")
+    if not proc.is_dir():
+        return False
+    for p in proc.iterdir():
+        if not p.name.isdigit():
+            continue
+        try:
+            exe = os.readlink(p / "exe")
+        except OSError:
+            continue
+        if exe.endswith("nav2_bt_navigator/bt_navigator"):
+            return True
+    return False
 
 
 def nav2_goal_verdict(text: str, goal_rc: int) -> str:
@@ -141,12 +164,26 @@ def start_nav2(
 def wait_nav2_ready(env: dict[str, str], session: Path, timeout_s: float = 180.0) -> None:
     log = session / "nav2_bringup.log"
     deadline = time.time() + timeout_s
+    saw_bt = False
+    saw_proc = False
     while time.time() < deadline:
         text = log.read_text(errors="replace") if log.is_file() else ""
         fail = nav2_bringup_failure(text)
         if fail:
             raise HopError("planner_startup_error", fail)
-        if lifecycle_is_active(lifecycle_get(env, "/bt_navigator")):
+        alive = bt_navigator_proc_alive()
+        if alive:
+            saw_proc = True
+        elif saw_proc:
+            raise HopError("planner_startup_error", "bt_navigator process disappeared")
+        listed = list_nodes(env)
+        if bt_navigator_listed(listed):
+            saw_bt = True
+        elif saw_bt and listed.strip():
+            raise HopError("planner_startup_error", "bt_navigator node disappeared")
+        if bt_navigator_listed(listed) and lifecycle_is_active(
+            lifecycle_get(env, "/bt_navigator")
+        ):
             remain = max(5.0, deadline - time.time())
             as_hop("planner_startup_error", wait_action, env, "navigate_to_pose", remain)
             return
@@ -195,4 +232,22 @@ def send_nav2_goal(
         env=env,
         log_path=session / "nav_goal.txt",
     )
-    return int(proc.wait())
+    deadline = time.time() + timeout_s
+    while time.time() < deadline:
+        if not bt_navigator_proc_alive():
+            proc.terminate()
+            try:
+                proc.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                proc.kill()
+            raise HopError("planner_startup_error", "bt_navigator process disappeared")
+        try:
+            return int(proc.wait(timeout=1.0))
+        except subprocess.TimeoutExpired:
+            continue
+    proc.terminate()
+    try:
+        return int(proc.wait(timeout=5))
+    except subprocess.TimeoutExpired:
+        proc.kill()
+        return 1
