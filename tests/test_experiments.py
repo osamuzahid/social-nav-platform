@@ -40,6 +40,11 @@ def test_no_lab_home_in_text() -> None:
             continue
         if ".git" in path.parts or "tests" in path.parts or "cache" in path.parts:
             continue
+        rel = path.relative_to(ROOT)
+        if rel.parts[0] in {"install", "build", "log"}:
+            continue
+        if "results" in path.parts and "runs" in path.parts:
+            continue
         try:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
@@ -84,10 +89,13 @@ def test_components_lock_has_full_shas() -> None:
         assert all(c in "0123456789abcdef" for c in sha)
 
 
-def test_run_execute_fails_closed_without_isaac() -> None:
-    from social_nav_runner.cli import main
+def test_run_execute_fails_closed_without_isaac(tmp_path, monkeypatch) -> None:
+    from social_nav_runner import supervisor
 
-    rc = main(["run", "museum-reachy-esc", "--execute"])
+    monkeypatch.setattr(
+        supervisor, "_archive_dir", lambda root, exp: tmp_path / exp.id
+    )
+    rc = supervisor.execute_experiment("museum-reachy-esc")
     assert rc == 3
 
 
@@ -125,13 +133,15 @@ def test_cite_metrics_last_row(tmp_path) -> None:
 
 
 def test_overlay_env_points_at_siblings() -> None:
-    from social_nav_runner.layout import Layout
+    from social_nav_runner.layout import CAMPAIGN_WORLDS, Layout
 
     layout = Layout.discover(ROOT)
     env = layout.overlay_env()
     assert env["SOCIAL_NAV_SCENARIOS"].endswith("config/crowds")
     assert env["SOCIAL_NAV_ROBOTS"].endswith("config/robots")
     assert "hunav-isaac-wrapper-jazzy" in env["SOCIAL_NAV_WRAPPER"]
+    worlds = {e.world for e in load_all(ROOT)}
+    assert worlds <= set(CAMPAIGN_WORLDS)
 
 
 def test_process_group_terminates_children() -> None:

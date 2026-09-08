@@ -4,12 +4,13 @@ Front door for the lab handover family. Sibling trees:
 
 | Lock key | Path (relative) | Tag |
 |---|---|---|
-| wrapper | `../hunav-isaac-wrapper-jazzy` | `v0.2.0` |
-| hunav | `../hunav-sim-jazzy` | `v0.2.0` |
-| esc | `../esc-nav-jazzy` | `v0.2.0` |
-| assets | `../social-nav-assets` | `v0.2.0` |
+| wrapper | `../hunav-isaac-wrapper-jazzy` | `v0.2.1` |
+| hunav | `../hunav-sim-jazzy` | `v0.2.1` |
+| esc | `../esc-nav-jazzy` | `v0.2.1` |
+| assets | `../social-nav-assets` | `v0.2.1` |
 
-Exact SHAs: [components.lock.yaml](../components.lock.yaml).
+Install: [installation.md](installation.md). Run: [quickstart.md](quickstart.md).
+Extend: [extending.md](extending.md). Exact SHAs: [components.lock.yaml](../components.lock.yaml).
 
 ## Experiments
 
@@ -33,8 +34,9 @@ campaign release.
 `--execute` starts Isaac + Nav2 **or** ESC plus hunav_evaluator in one process
 group (no GNOME terminals). Failed goals stay in `cache/sessions/`.
 `GOAL=SUCCEEDED` with `metrics_cited.csv` copies into `results/runs/<id>/`
-and refuses overwrite. Set `SOCIAL_NAV_ROS_SETUP` before `--execute`. Cameras
-stay on. Do not pass `--disable-cameras`.
+and refuses overwrite. After `./scripts/build.sh`, `--execute` uses sibling
+HuNav/ESC overlays; set `SOCIAL_NAV_ROS_SETUP` only if those installs live
+elsewhere. Cameras stay on. Do not pass `--disable-cameras`.
 
 ## Not in this tree
 

@@ -8,6 +8,8 @@ for arg in "$@"; do
     --install-system-deps) INSTALL_DEPS=1 ;;
     -h|--help)
       echo "Usage: $0 [--install-system-deps]"
+      echo "Default: run doctor.sh (sibling SHAs, USD bundle, unpacked worlds)."
+      echo "--install-system-deps: apt packages (needs root). Does not install Isaac Sim or lightsfm."
       exit 0
       ;;
     *)
@@ -23,7 +25,12 @@ if [[ "$INSTALL_DEPS" -eq 1 ]]; then
     exit 1
   fi
   apt-get update
-  apt-get install -y python3-yaml python3-pytest liboctomap-dev
+  apt-get install -y \
+    python3-yaml python3-pytest python3-colcon-common-extensions \
+    liboctomap-dev zstd \
+    ros-jazzy-navigation2 ros-jazzy-nav2-bringup ros-jazzy-nav2-behavior-tree \
+    ros-jazzy-behaviortree-cpp \
+    ros-jazzy-grid-map ros-jazzy-pcl-ros ros-jazzy-cv-bridge ros-jazzy-ompl
   exit 0
 fi
 

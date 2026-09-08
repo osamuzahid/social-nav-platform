@@ -8,6 +8,8 @@
   Register a matching `config/experiments/<id>.yaml`.
 - `social-nav run --execute` runs one process group (Isaac, then Nav2 or ESC).
   Cameras stay on.
+- Install and overlay build: [docs/installation.md](docs/installation.md).
+  New hops: [docs/extending.md](docs/extending.md).
 
 Licence: MIT for platform tools. Vendored msgs keep BSD texts in
 `src/vendor/*/LICENSE`.

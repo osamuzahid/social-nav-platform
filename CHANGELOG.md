@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 — 2026-09-08
+
+Install path for sibling overlays: `unpack-assets.sh`, `build.sh` (HuNav,
+wrapper, ESC), doctor checks campaign USDs. Docs: installation, quickstart,
+extending, troubleshooting.
+
 ## 0.2.0 — 2026-09-08
 
 `social-nav run --execute` runs the campaign hop (Isaac keepalive, evaluator,

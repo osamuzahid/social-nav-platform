@@ -1,17 +1,18 @@
-# Limitations (v0.2.0)
+# Limitations (v0.2.1)
 
 - `social-nav run --execute` starts one process group (Isaac keepalive, then
   Nav2 **or** ESC, plus hunav_evaluator). It does not restore a GNOME terminal
   farm.
-- `--execute` fails closed when Isaac python, world/robot USDs, occupancy, the
-  HuNav overlay (`SOCIAL_NAV_ROS_SETUP`), or (for ESC) the octomap /
-  `SOCIAL_NAV_ESC_SETUP` is missing. Set `SOCIAL_NAV_ISAAC_PATH` if Isaac is not
-  at `$HOME/isaacsim/python.sh`.
+- `--execute` fails closed when Isaac python, world/robot USDs, occupancy,
+  the sibling HuNav overlay (`../hunav-sim-jazzy/install/setup.bash` after
+  `./scripts/build.sh`, or `SOCIAL_NAV_ROS_SETUP`), or (for ESC) the octomap /
+  ESC overlay is missing. Set `SOCIAL_NAV_ISAAC_PATH` if Isaac is not at
+  `$HOME/isaacsim/python.sh`.
 - `GOAL=SUCCEEDED` plus `metrics_cited.csv` (last HuNav row) copies into
   `results/runs/<id>/` and refuses overwrite.
 - Bootstrap is check-only unless `--install-system-deps` (apt only).
-- Sibling handover trees are expected next to this checkout. Bootstrap does
-  not clone them.
+- Sibling handover trees are expected next to this checkout. `./scripts/build.sh`
+  colcon-builds them in place. Bootstrap does not clone them.
 - PhysX Stretch (`stretch_wheeled`) is rejected.
 - Simultaneous multi-robot episodes are out of scope.
 - Mixed HuNav behaviour trees are not scored (campaign crowds are type 2).

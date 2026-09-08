@@ -11,6 +11,17 @@ import yaml
 
 from social_nav_runner.experiments import Experiment, platform_root
 
+CAMPAIGN_WORLDS = (
+    "museum",
+    "hospital",
+    "office",
+    "bookstore",
+    "house_museum",
+    "small_house",
+    "small_warehouse",
+)
+CAMPAIGN_ROBOTS = ("stretch", "reachy")
+
 
 def _load_lock(root: Path) -> dict[str, Any]:
     return yaml.safe_load((root / "components.lock.yaml").read_text(encoding="utf-8"))
@@ -44,6 +55,7 @@ def ros_setups(root: Path | None = None) -> list[Path]:
     for rel in (
         Path("install") / "setup.bash",
         Path("..") / "hunav-sim-jazzy" / "install" / "setup.bash",
+        Path("..") / "hunav-isaac-wrapper-jazzy" / "install" / "setup.bash",
         Path("..") / "esc-nav-jazzy" / "install" / "setup.bash",
     ):
         _add(base / rel)
@@ -139,13 +151,23 @@ class Layout:
         env["PYTHONPATH"] = os.pathsep.join(parts)
         return env
 
+    def missing_runtime_assets(self) -> list[str]:
+        missing: list[str] = []
+        for world in CAMPAIGN_WORLDS:
+            usd = self.worlds / f"{world}.usd"
+            if not usd.is_file():
+                missing.append(str(usd))
+        for robot in CAMPAIGN_ROBOTS:
+            usd = self.robot_usd / robot / f"{robot}.usd"
+            if not usd.is_file():
+                missing.append(str(usd))
+        return missing
+
     def hunav_overlay_ok(self) -> bool:
         raw = os.environ.get("SOCIAL_NAV_ROS_SETUP", "").strip()
         if raw and any(Path(p).expanduser().is_file() for p in raw.split(":")):
             return True
-        return (self.hunav / "install" / "setup.bash").is_file() or (
-            self.platform / "install" / "setup.bash"
-        ).is_file()
+        return (self.hunav / "install" / "setup.bash").is_file()
 
     def esc_overlay_ok(self) -> bool:
         raw = os.environ.get("SOCIAL_NAV_ESC_SETUP", "").strip()
@@ -218,13 +240,13 @@ class Layout:
             errors.append(f"configuration_error: missing crowd {crowd}")
         if not self.hunav_overlay_ok():
             errors.append(
-                "dependency_error: set SOCIAL_NAV_ROS_SETUP to a workspace that "
-                "provides hunav_agent_manager and hunav_evaluator"
+                "dependency_error: run ./scripts/build.sh (or set SOCIAL_NAV_ROS_SETUP) "
+                "so hunav_agent_manager is on the overlay"
             )
         if exp.stack == "esc" and not self.esc_overlay_ok():
             errors.append(
-                "dependency_error: set SOCIAL_NAV_ESC_SETUP to a workspace that "
-                "provides ESC nodes"
+                "dependency_error: run ./scripts/build.sh (or set SOCIAL_NAV_ESC_SETUP) "
+                "so ESC nodes are on the overlay"
             )
         metrics_yaml = self.platform / "config" / "metrics" / "campaign-v1.yaml"
         if not metrics_yaml.is_file():
