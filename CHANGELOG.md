@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2 — 2026-09-08
+
+Origin section on each family README: wrapper/HuNav/ESC are forks
+(robotics-upo / Cardiff); assets lists CUCR / Hello Robot / Pollen;
+platform is original plus vendored `people_msgs` / `pedsim_msgs`.
+
 ## 0.2.1 — 2026-09-08
 
 Install path for sibling overlays: `unpack-assets.sh`, `build.sh` (HuNav,

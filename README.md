@@ -1,5 +1,19 @@
 # social-nav-platform
 
+## Origin
+
+This repository is **original** to the handover family (experiment descriptors,
+supervisor, Nav2/ESC profiles, campaign crowds, CLI). It is not a fork.
+
+Vendored ROS messages (not authored here):
+
+- `people_msgs` — [wg-perception/people](https://github.com/wg-perception/people) (BSD, Willow Garage)
+- `pedsim_msgs` — [stephenadhi/pedsim_ros](https://github.com/stephenadhi/pedsim_ros) `humble` (BSD)
+
+Sibling trees **are** derived: wrapper and HuNav from robotics-upo, ESC from
+Cardiff, worlds/robots from CUCR / Hello Robot / Pollen. Those READMEs state
+the upstream URL and why the tree exists.
+
 Front door for the lab handover family: experiment descriptors, Nav2/ESC
 profiles, campaign crowds, lab robot YAML, and a `social-nav` CLI.
 

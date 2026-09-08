@@ -1,19 +1,19 @@
 wrapper:
   path: ../hunav-isaac-wrapper-jazzy
-  sha: 1d0bde2ece762e9bfffbc7edb73ec08b75ee0193
-  tag: v0.2.1
+  sha: 79aa79784a7d86a85a9f17e01f7570955ed6d394
+  tag: v0.2.2
 hunav:
   path: ../hunav-sim-jazzy
-  sha: f9772b88e63649ff4dcdab24f80d0023e8ee214a
-  tag: v0.2.1
+  sha: 58a7d940d57a472fd846f38d2a70a4b342e82a61
+  tag: v0.2.2
 esc:
   path: ../esc-nav-jazzy
-  sha: 86d7e7acc12b775ecb2e127812f28ed7faffca9f
-  tag: v0.2.1
+  sha: 9e3fdde4d6c56c3ac08419072a2d3a4f8be8a9a6
+  tag: v0.2.2
 assets:
   path: ../social-nav-assets
-  sha: f14ae366b8c5241bb00f7352e56c2ec6357d9f55
-  tag: v0.2.1
+  sha: 870383140757173d7daeb91511c1591f6f1fe124
+  tag: v0.2.2
   bundle: dist/prebuilt-assets-v0.1.0-candidate.tar.zst
   bundle_sha256: 07a3c845c47abe6689f35eaab93b3013021b8b0f35c846ddb4c6e3a4eacf5692
 scientific_freeze:
