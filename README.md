@@ -38,8 +38,7 @@ nodes. Do not pass `--disable-cameras`.
 ```
 
 Default bootstrap is **check-only**. It verifies sibling handover trees at the
-SHAs in [components.lock.yaml](components.lock.yaml). No GitHub remotes on this
-candidate.
+SHAs in [components.lock.yaml](components.lock.yaml).
 
 ## Layout
 

@@ -1,4 +1,4 @@
-# Limitations (v0.1.0-candidate)
+# Limitations (v0.2.0)
 
 - `social-nav run --execute` starts one process group (Isaac keepalive, then
   Nav2 **or** ESC, plus hunav_evaluator). It does not restore a GNOME terminal
@@ -10,8 +10,8 @@
 - `GOAL=SUCCEEDED` plus `metrics_cited.csv` (last HuNav row) copies into
   `results/runs/<id>/` and refuses overwrite.
 - Bootstrap is check-only unless `--install-system-deps` (apt only).
-- Sibling handover trees are expected next to this checkout. There is no
-  GitHub clone step on this candidate.
+- Sibling handover trees are expected next to this checkout. Bootstrap does
+  not clone them.
 - PhysX Stretch (`stretch_wheeled`) is rejected.
 - Simultaneous multi-robot episodes are out of scope.
 - Mixed HuNav behaviour trees are not scored (campaign crowds are type 2).

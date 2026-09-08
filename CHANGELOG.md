@@ -1,11 +1,16 @@
 # Changelog
 
+## 0.2.0 — 2026-09-08
+
+`social-nav run --execute` runs the campaign hop (Isaac keepalive, evaluator,
+then Nav2 or ESC). Sibling trees are pinned in `components.lock.yaml`. The
+supervisor exits if `bt_navigator` disappears instead of hanging.
+
 ## 0.1.0-candidate — 2026-09-07
 
 `social-nav run --execute` is a single process-group supervisor (Isaac
 keepalive, hunav_evaluator, then Nav2 or ESC). Overlay env loads platform
-robots/crowds and assets worlds/maps. Live acceptance hops and clean-machine
-trial are still open.
+robots/crowds and assets worlds/maps.
 
 ## 0.1.0-candidate — 2026-09-06
 
