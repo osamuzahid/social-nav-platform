@@ -43,26 +43,33 @@ fi
 
 source_setup /opt/ros/jazzy/setup.bash
 
+# Freeze ros2_ws hunav_msgs is CMAKE_BUILD_TYPE=Release (-DNDEBUG). Bare
+# colcon leaves the type empty, so rosidl convert_from_py keeps
+# assert(PyFloat_Check) on Agent.yaw. numpy.float64 from np.arctan2 then
+# abort()s Isaac. Pin Release so the overlay matches freeze.
+CMAKE_RELEASE=(--cmake-args -DCMAKE_BUILD_TYPE=Release)
+
 echo "building platform message packages"
 cd "$ROOT"
-colcon build --symlink-install --paths src/vendor/people_msgs src/vendor/pedsim_msgs
+colcon build --symlink-install "${CMAKE_RELEASE[@]}" \
+  --paths src/vendor/people_msgs src/vendor/pedsim_msgs
 source_setup "$ROOT/install/setup.bash"
 
 echo "building hunav-sim-jazzy"
 cd "$HUNAV"
-colcon build --symlink-install --base-paths . \
+colcon build --symlink-install "${CMAKE_RELEASE[@]}" --base-paths . \
   --packages-select hunav_msgs hunav_agent_manager hunav_evaluator hunav_sim \
   --packages-ignore hunav_rviz2_panel
 source_setup "$HUNAV/install/setup.bash"
 
 echo "building hunav-isaac-wrapper-jazzy"
 cd "$WRAPPER"
-colcon build --symlink-install
+colcon build --symlink-install "${CMAKE_RELEASE[@]}"
 source_setup "$WRAPPER/install/setup.bash"
 
 echo "building esc-nav-jazzy"
 cd "$ESC"
-colcon build --symlink-install --base-paths .
+colcon build --symlink-install "${CMAKE_RELEASE[@]}" --base-paths .
 
 echo "build OK"
 echo "HuNav overlay: $HUNAV/install/setup.bash"

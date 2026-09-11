@@ -89,6 +89,11 @@ def test_components_lock_has_full_shas() -> None:
         assert all(c in "0123456789abcdef" for c in sha)
 
 
+def test_build_sh_pins_release() -> None:
+    text = (ROOT / "scripts" / "build.sh").read_text(encoding="utf-8")
+    assert "-DCMAKE_BUILD_TYPE=Release" in text
+
+
 def test_components_lock_apt_versions() -> None:
     import yaml
 

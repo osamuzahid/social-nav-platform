@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.2.5 — 2026-09-11
+
+`./scripts/build.sh` passes `-DCMAKE_BUILD_TYPE=Release` so `hunav_msgs`
+matches the freeze overlay (`-DNDEBUG`). Empty type leaves rosidl
+`PyFloat_Check` asserts live; Isaac then abort()s on numpy `Agent.yaw`.
+
 ## 0.2.4 — 2026-09-11
 
 `--install-system-deps` verifies `snapshots.ros.org` with the vendored ROS

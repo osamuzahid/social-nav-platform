@@ -6,11 +6,11 @@ The lab checkout is five sibling directories. Private remotes (student account; 
 
 ```bash
 mkdir -p ~/social-nav && cd ~/social-nav
-git clone --branch v0.2.4 git@github.com:osamuzahid/social-nav-platform.git
-git clone --branch v0.2.4 git@github.com:osamuzahid/hunav-isaac-wrapper-jazzy.git
-git clone --branch v0.2.4 git@github.com:osamuzahid/hunav-sim-jazzy.git
-git clone --branch v0.2.4 git@github.com:osamuzahid/esc-nav-jazzy.git
-git clone --branch v0.2.4 git@github.com:osamuzahid/social-nav-assets.git
+git clone --branch v0.2.5 git@github.com:osamuzahid/social-nav-platform.git
+git clone --branch v0.2.5 git@github.com:osamuzahid/hunav-isaac-wrapper-jazzy.git
+git clone --branch v0.2.5 git@github.com:osamuzahid/hunav-sim-jazzy.git
+git clone --branch v0.2.5 git@github.com:osamuzahid/esc-nav-jazzy.git
+git clone --branch v0.2.5 git@github.com:osamuzahid/social-nav-assets.git
 ```
 
 ```text
@@ -22,7 +22,7 @@ git clone --branch v0.2.4 git@github.com:osamuzahid/social-nav-assets.git
 └── social-nav-assets
 ```
 
-Exact SHAs: [components.lock.yaml](../components.lock.yaml) (`v0.2.4` matches). Isaac Sim is not in git. World and robot USDs ship as a checksummed tarball, not Git LFS.
+Exact SHAs: [components.lock.yaml](../components.lock.yaml) (`v0.2.5` matches). Isaac Sim is not in git. World and robot USDs ship as a checksummed tarball, not Git LFS.
 
 ## 1. System packages
 
@@ -64,7 +64,7 @@ source /opt/ros/jazzy/setup.bash
 ./scripts/build.sh
 ```
 
-This colcon-builds platform `people_msgs` / `pedsim_msgs`, then HuNav, the Isaac wrapper, then ESC. `./scripts/build.sh` sources ROS with `set +u` so Ament setup files do not abort.
+This colcon-builds platform `people_msgs` / `pedsim_msgs`, then HuNav, the Isaac wrapper, then ESC. Every `colcon` invocation passes `-DCMAKE_BUILD_TYPE=Release` so `hunav_msgs` matches the freeze overlay (`-DNDEBUG`; empty type leaves rosidl `PyFloat_Check` on `Agent.yaw` and abort()s Isaac). `./scripts/build.sh` sources ROS with `set +u` so Ament setup files do not abort.
 
 After a successful build, `--execute` finds HuNav at `../hunav-sim-jazzy/install/setup.bash` and ESC at `../esc-nav-jazzy/install/setup.bash`. You do not need `SOCIAL_NAV_ROS_SETUP` unless those overlays live somewhere else.
 
