@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pathlib import Path
+import subprocess
 
 from social_nav_runner.experiments import load_all, platform_root, validate_tree
 
@@ -35,22 +35,21 @@ def test_museum_reachy_pose() -> None:
 def test_no_lab_home_in_text() -> None:
     hits = []
     skip = {".png", ".bt", ".csv"}
-    for path in ROOT.rglob("*"):
+    tracked = subprocess.check_output(
+        ["git", "ls-files"], cwd=ROOT, text=True
+    ).splitlines()
+    for rel in tracked:
+        if rel.startswith("tests/") or "/tests/" in rel:
+            continue
+        path = ROOT / rel
         if not path.is_file() or path.suffix in skip:
-            continue
-        if ".git" in path.parts or "tests" in path.parts or "cache" in path.parts:
-            continue
-        rel = path.relative_to(ROOT)
-        if rel.parts[0] in {"install", "build", "log"}:
-            continue
-        if "results" in path.parts and "runs" in path.parts:
             continue
         try:
             text = path.read_text(encoding="utf-8")
-        except UnicodeDecodeError:
+        except (UnicodeDecodeError, OSError):
             continue
-        if "/home/osamuzahid" in text:
-            hits.append(str(path.relative_to(ROOT)))
+        if "/home/" in text:
+            hits.append(rel)
     assert hits == []
 
 

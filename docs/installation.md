@@ -6,11 +6,11 @@ The lab checkout is five sibling directories. Private remotes (student account; 
 
 ```bash
 mkdir -p ~/social-nav && cd ~/social-nav
-git clone --branch v0.2.2 git@github.com:osamuzahid/social-nav-platform.git
-git clone --branch v0.2.2 git@github.com:osamuzahid/hunav-isaac-wrapper-jazzy.git
-git clone --branch v0.2.2 git@github.com:osamuzahid/hunav-sim-jazzy.git
-git clone --branch v0.2.2 git@github.com:osamuzahid/esc-nav-jazzy.git
-git clone --branch v0.2.2 git@github.com:osamuzahid/social-nav-assets.git
+git clone --branch v0.2.3 git@github.com:osamuzahid/social-nav-platform.git
+git clone --branch v0.2.3 git@github.com:osamuzahid/hunav-isaac-wrapper-jazzy.git
+git clone --branch v0.2.3 git@github.com:osamuzahid/hunav-sim-jazzy.git
+git clone --branch v0.2.3 git@github.com:osamuzahid/esc-nav-jazzy.git
+git clone --branch v0.2.3 git@github.com:osamuzahid/social-nav-assets.git
 ```
 
 ```text
@@ -22,7 +22,7 @@ git clone --branch v0.2.2 git@github.com:osamuzahid/social-nav-assets.git
 └── social-nav-assets
 ```
 
-Exact SHAs: [components.lock.yaml](../components.lock.yaml) (`v0.2.2` matches). Isaac Sim is not in git. World and robot USDs ship as a checksummed tarball, not Git LFS.
+Exact SHAs: [components.lock.yaml](../components.lock.yaml) (`v0.2.3` matches). Isaac Sim is not in git. World and robot USDs ship as a checksummed tarball, not Git LFS.
 
 ## 1. System packages
 
