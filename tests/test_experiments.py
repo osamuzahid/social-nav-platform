@@ -89,6 +89,39 @@ def test_components_lock_has_full_shas() -> None:
         assert all(c in "0123456789abcdef" for c in sha)
 
 
+def test_components_lock_apt_versions() -> None:
+    import yaml
+
+    lock = yaml.safe_load((ROOT / "components.lock.yaml").read_text(encoding="utf-8"))
+    apt = lock["apt"]
+    assert apt["ros_snapshot"].startswith("http://snapshots.ros.org/")
+    pkgs = apt["packages"]
+    assert pkgs["ros-jazzy-navigation2"].startswith("1.3.12-")
+    assert pkgs["ros-jazzy-nav2-smac-planner"].startswith("1.3.12-")
+    assert pkgs["ros-jazzy-nav2-mppi-controller"].startswith("1.3.12-")
+    assert pkgs["ros-jazzy-behaviortree-cpp"].startswith("4.9.0-")
+    assert pkgs["ros-jazzy-cv-bridge"].startswith("4.1.0-1noble.20260615")
+    assert pkgs["ros-jazzy-grid-map"].startswith("2.2.2-2noble.20260615")
+    assert pkgs["ros-jazzy-pcl-ros"].startswith("2.6.4-")
+    assert pkgs["ros-jazzy-ompl"].startswith("1.7.0-")
+    assert "python3-yaml" in pkgs
+    assert "liboctomap-dev" in pkgs
+
+
+def test_components_lock_records_host_environment() -> None:
+    import yaml
+
+    lock = yaml.safe_load((ROOT / "components.lock.yaml").read_text(encoding="utf-8"))
+    env = lock["environment"]
+    assert env["isaac_version"].startswith("6.0.1")
+    assert env["python"].startswith("3.12")
+    assert env["pandas"]
+    assert env["numpy"]
+    assert env["assimp_utils"]
+    assert env["nvidia_driver_minimum"].startswith("595.")
+    assert len(env["lightsfm_include_sha256"]) == 64
+
+
 def test_run_execute_fails_closed_without_isaac(tmp_path, monkeypatch) -> None:
     from social_nav_runner import supervisor
 

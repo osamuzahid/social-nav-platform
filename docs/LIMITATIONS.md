@@ -10,7 +10,11 @@
   `$HOME/isaacsim/python.sh`.
 - `GOAL=SUCCEEDED` plus `metrics_cited.csv` (last HuNav row) copies into
   `results/runs/<id>/` and refuses overwrite.
-- Bootstrap is check-only unless `--install-system-deps` (apt only).
+- Bootstrap is check-only unless `--install-system-deps`. That path installs
+  and holds the lock apt versions (the ROS and Ubuntu packages this family
+  was built and tested against). It does not install Isaac Sim or lightsfm.
+- Doctor fails when a lock apt package is installed at the wrong version.
+  Isaac, driver, lightsfm, pandas/numpy, and Assimp mismatches are notes.
 - Sibling handover trees are expected next to this checkout. `./scripts/build.sh`
   colcon-builds them in place. Bootstrap does not clone them.
 - PhysX Stretch (`stretch_wheeled`) is rejected.

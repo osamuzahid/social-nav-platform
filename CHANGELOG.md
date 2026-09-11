@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+`--install-system-deps` installs and holds the lock apt versions so a host
+matches the ROS and Ubuntu packages this family was built and tested against.
+Doctor fails on apt version mismatch; Isaac, driver, lightsfm, pandas/numpy,
+and Assimp are notes against the lock `environment` block.
+
 ## 0.2.2 — 2026-09-08
 
 Origin section on each family README: wrapper/HuNav/ESC are forks

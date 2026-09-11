@@ -28,6 +28,11 @@ Exact SHAs: [components.lock.yaml](../components.lock.yaml) (`v0.2.2` matches). 
 
 Isaac Sim must already be installed (default `~/isaacsim/python.sh`, or set `SOCIAL_NAV_ISAAC_PATH`).
 
+`--install-system-deps` installs the apt versions in
+[components.lock.yaml](../components.lock.yaml) (`apt.packages`) so the host
+matches the stack this family was built and tested against, then holds those
+packages. The lock’s `ros_snapshot` is the archive that serves the ROS debs.
+
 ```bash
 cd social-nav-platform
 source /opt/ros/jazzy/setup.bash
@@ -69,6 +74,6 @@ After a successful build, `--execute` finds HuNav at `../hunav-sim-jazzy/install
 ./scripts/social-nav validate
 ```
 
-Doctor fails if a sibling `HEAD` does not match the lock, if campaign USDs are missing, or if the tarball checksum is wrong.
+Doctor fails if a sibling `HEAD` does not match the lock, if campaign USDs are missing, if the tarball checksum is wrong, or if a lock apt package is installed at a different version. Isaac, Python, pandas/numpy, Assimp, NVIDIA driver, and lightsfm headers are compared to `environment` in the lock as notes; they do not fail the check.
 
 Continue with [quickstart.md](quickstart.md).
