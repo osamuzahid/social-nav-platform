@@ -2,10 +2,20 @@
 
 ## Unreleased
 
+## 0.2.4 — 2026-09-11
+
+`--install-system-deps` verifies `snapshots.ros.org` with the vendored ROS
+Snapshot builder key (`config/apt/ros-snapshot.asc`), not the live
+`packages.ros.org` keyring. A failed `apt-get update` removes the leftover
+snapshot source list.
+
+## 0.2.3 — 2026-09-11
+
 `--install-system-deps` installs and holds the lock apt versions so a host
 matches the ROS and Ubuntu packages this family was built and tested against.
 Doctor fails on apt version mismatch; Isaac, driver, lightsfm, pandas/numpy,
-and Assimp are notes against the lock `environment` block.
+and Assimp are notes against the lock `environment` block. Home-path tests
+scan `git ls-files`.
 
 ## 0.2.2 — 2026-09-08
 

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import subprocess
 
 from social_nav_runner.experiments import load_all, platform_root, validate_tree
@@ -94,6 +95,22 @@ def test_components_lock_apt_versions() -> None:
     lock = yaml.safe_load((ROOT / "components.lock.yaml").read_text(encoding="utf-8"))
     apt = lock["apt"]
     assert apt["ros_snapshot"].startswith("http://snapshots.ros.org/")
+    assert apt["ros_snapshot_key"] == "config/apt/ros-snapshot.asc"
+    assert apt["ros_snapshot_key_fingerprint"] == (
+        "4B63CF8FDE49746E98FA01DDAD19BAB3CBF125EA"
+    )
+    assert apt["ros_snapshot_keyring"] == (
+        "/usr/share/keyrings/ros-snapshot-keyring.gpg"
+    )
+    key = ROOT / apt["ros_snapshot_key"]
+    assert key.is_file()
+    out = subprocess.check_output(
+        ["gpg", "--show-keys", "--with-colons", str(key)],
+        env={k: v for k, v in os.environ.items() if k != "GNUPGHOME"},
+        text=True,
+    )
+    fprs = [line.split(":")[9] for line in out.splitlines() if line.startswith("fpr:")]
+    assert fprs[0].upper() == apt["ros_snapshot_key_fingerprint"]
     pkgs = apt["packages"]
     assert pkgs["ros-jazzy-navigation2"].startswith("1.3.12-")
     assert pkgs["ros-jazzy-nav2-smac-planner"].startswith("1.3.12-")

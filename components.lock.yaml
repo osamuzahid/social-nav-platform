@@ -1,19 +1,19 @@
 wrapper:
   path: ../hunav-isaac-wrapper-jazzy
   sha: 79aa79784a7d86a85a9f17e01f7570955ed6d394
-  tag: v0.2.3
+  tag: v0.2.4
 hunav:
   path: ../hunav-sim-jazzy
   sha: 58a7d940d57a472fd846f38d2a70a4b342e82a61
-  tag: v0.2.3
+  tag: v0.2.4
 esc:
   path: ../esc-nav-jazzy
   sha: b792ad0323caf3a36a25a3843dc63f2d70a00879
-  tag: v0.2.3
+  tag: v0.2.4
 assets:
   path: ../social-nav-assets
   sha: 167940b969e15d8b3a2dcf0a850c3e36a38321c0
-  tag: v0.2.3
+  tag: v0.2.4
   bundle: dist/prebuilt-assets-v0.1.0-candidate.tar.zst
   bundle_sha256: 07a3c845c47abe6689f35eaab93b3013021b8b0f35c846ddb4c6e3a4eacf5692
 scientific_freeze:
@@ -27,6 +27,10 @@ apt:
   # the ROS debs at those versions.
   ros_snapshot: http://snapshots.ros.org/jazzy/2026-06-18/ubuntu
   ros_snapshot_dist: noble
+  # snapshots.ros.org is signed by ROS Snapshot builder, not packages.ros.org.
+  ros_snapshot_key: config/apt/ros-snapshot.asc
+  ros_snapshot_key_fingerprint: 4B63CF8FDE49746E98FA01DDAD19BAB3CBF125EA
+  ros_snapshot_keyring: /usr/share/keyrings/ros-snapshot-keyring.gpg
   packages:
     python3-yaml: "6.0.1-2build2"
     python3-pytest: "7.4.4-1"

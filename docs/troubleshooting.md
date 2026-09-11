@@ -4,6 +4,13 @@
 
 **Missing USDs.** Doctor prints `FAIL unpacked USDs missing`. Run `./scripts/unpack-assets.sh` with the tarball at `social-nav-assets/dist/prebuilt-assets-v0.1.0-candidate.tar.zst`.
 
+**Snapshot apt `NO_PUBKEY`.** `snapshots.ros.org` is not signed by
+`ros-archive-keyring.gpg`. Use family `v0.2.4` (or later). Bootstrap installs
+the vendored Snapshot builder key to `/usr/share/keyrings/ros-snapshot-keyring.gpg`.
+If `apt-get update` still fails, bootstrap removes
+`/etc/apt/sources.list.d/social-nav-ros-snapshot.list` so ordinary apt keeps
+working. Do not point the snapshot line at the live ROS keyring.
+
 **Sibling SHA mismatch.** Doctor compares each sibling `HEAD` to `components.lock.yaml`. Check out the locked SHA (or the family tag that matches the lock) before running hops.
 
 **HuNav / ESC overlay.** `--execute` needs `hunav_agent_manager` on the overlay. After `./scripts/build.sh`, that is `../hunav-sim-jazzy/install/setup.bash`. Otherwise set `SOCIAL_NAV_ROS_SETUP` (and `SOCIAL_NAV_ESC_SETUP` for ESC hops).

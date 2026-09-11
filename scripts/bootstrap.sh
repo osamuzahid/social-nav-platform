@@ -26,20 +26,37 @@ if [[ "$INSTALL_DEPS" -eq 1 ]]; then
     echo "dependency_error: --install-system-deps needs root for apt" >&2
     exit 1
   fi
-  KEYRING=/usr/share/keyrings/ros-archive-keyring.gpg
-  if [[ ! -f "$KEYRING" ]]; then
-    echo "dependency_error: ROS apt keyring missing at $KEYRING" >&2
-    exit 1
-  fi
-  eval "$(python3 - "$LOCK" <<'PY'
-import shlex, sys
+  eval "$(python3 - "$LOCK" "$ROOT" <<'PY'
+import shlex, subprocess, sys
 from pathlib import Path
 import yaml
 
-lock = yaml.safe_load(Path(sys.argv[1]).read_text(encoding="utf-8"))
+lock_path = Path(sys.argv[1])
+root = Path(sys.argv[2])
+lock = yaml.safe_load(lock_path.read_text(encoding="utf-8"))
 apt = lock["apt"]
+key_file = (root / apt["ros_snapshot_key"]).resolve()
+if not key_file.is_file():
+    print(f"dependency_error: missing snapshot key {key_file}", file=sys.stderr)
+    sys.exit(1)
+out = subprocess.check_output(
+    ["gpg", "--show-keys", "--with-colons", str(key_file)],
+    env={k: v for k, v in __import__("os").environ.items() if k != "GNUPGHOME"},
+    text=True,
+)
+fprs = [line.split(":")[9] for line in out.splitlines() if line.startswith("fpr:")]
+want = apt["ros_snapshot_key_fingerprint"].replace(" ", "").upper()
+if not fprs or fprs[0].upper() != want:
+    got = fprs[0] if fprs else "missing"
+    print(
+        f"dependency_error: snapshot key fingerprint {got} != {want}",
+        file=sys.stderr,
+    )
+    sys.exit(1)
 print("SNAPSHOT=" + shlex.quote(apt["ros_snapshot"]))
 print("SNAPSHOT_DIST=" + shlex.quote(apt["ros_snapshot_dist"]))
+print("KEY_FILE=" + shlex.quote(str(key_file)))
+print("KEYRING=" + shlex.quote(apt["ros_snapshot_keyring"]))
 pkgs = []
 for name, ver in apt["packages"].items():
     pkgs.append(f"{name}={ver}")
@@ -47,10 +64,18 @@ print("PACKAGES=" + shlex.quote(" ".join(pkgs)))
 print("HOLD=" + shlex.quote(" ".join(apt["packages"])))
 PY
 )"
+  install -d -m 0755 "$(dirname "$KEYRING")"
+  unset GNUPGHOME
+  gpg --batch --yes --dearmor -o "$KEYRING" "$KEY_FILE"
+  chmod 0644 "$KEYRING"
   SNAPSHOT_LIST=/etc/apt/sources.list.d/social-nav-ros-snapshot.list
   printf 'deb [arch=amd64 signed-by=%s] %s %s main\n' \
     "$KEYRING" "$SNAPSHOT" "$SNAPSHOT_DIST" > "$SNAPSHOT_LIST"
-  apt-get update
+  if ! apt-get update; then
+    rm -f "$SNAPSHOT_LIST"
+    echo "dependency_error: apt-get update failed for $SNAPSHOT (removed $SNAPSHOT_LIST)" >&2
+    exit 1
+  fi
   # Install lock versions even if another version is already present.
   # shellcheck disable=SC2086
   apt-get install -y --allow-downgrades $PACKAGES
