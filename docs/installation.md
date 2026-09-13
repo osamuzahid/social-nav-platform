@@ -2,15 +2,56 @@
 
 Supported runtime: **Ubuntu 24.04 x86-64**, **ROS 2 Jazzy**, **NVIDIA Isaac Sim 6.0.1** (workstation install). One robot per episode. Cameras stay on.
 
-The lab checkout is five sibling directories. Private remotes (student account; later transfer to the lab org):
+Bootstrap installs the lock apt set (Nav2 and related debs). It does **not** install the NVIDIA driver, Isaac Sim, ROS 2 itself, or lightsfm. Put those on the machine first.
+
+Exact sibling SHAs, apt pins, and host notes: [components.lock.yaml](../components.lock.yaml) (`v0.2.6` matches). Isaac Sim is not in git. World and robot USDs ship as a checksummed tarball, not Git LFS.
+
+## Host prerequisites (install by hand)
+
+Do this before cloning. Doctor reports Isaac / driver / lightsfm / pandas / numpy as **notes**; missing Isaac or lightsfm still fails `--execute` / `build.sh`.
+
+### Have these first
+
+| Need | Pin | How |
+|---|---|---|
+| OS | Ubuntu **24.04** x86-64 (`noble`) | [Isaac Sim 6.0.1 requirements](https://docs.isaacsim.omniverse.nvidia.com/6.0.1/installation/requirements.html) |
+| GPU | NVIDIA GPU with **RT cores** (A100/H100 not supported for rendering) | NVIDIA minimums: 32 GB RAM, 16 GB VRAM. Laptops below that can still run windowed hops (lag is accepted). |
+| Driver | **≥ 595.58.03** (R595). Tested **595.84** | `nvidia-smi`. Reboot after install. |
+| Isaac Sim | **6.0.1** standalone. Tested `VERSION` `6.0.1-rc.7+release.42383.32955d8d.gl` | [Workstation install](https://docs.isaacsim.omniverse.nvidia.com/6.0.1/installation/install_workstation.html). Unpack so `~/isaacsim/python.sh` exists (or set `SOCIAL_NAV_ISAAC_PATH`). First run: accept the EULA, or `export OMNI_KIT_ACCEPT_EULA=YES`. |
+| ROS 2 | **Jazzy** at `/opt/ros/jazzy/setup.bash`. Python **3.12** | [Jazzy Ubuntu debs](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html) (`ros-jazzy-desktop` is enough). Nav2 **1.3.12** is then pinned by bootstrap from the lock snapshot, not from rolling `packages.ros.org`. |
+| lightsfm | Headers at `/usr/local/include/lightsfm` (`sfm.hpp`) | Header-only. Git SHA of the freeze install is **unknown** — do not guess one. Clone [robotics-upo/lightsfm](https://github.com/robotics-upo/lightsfm), then `make && sudo make install`. Doctor compares the include-tree sha256 in the lock as a note. |
+| pandas / numpy | Tested **2.1.4** / **1.26.4** | `sudo apt install python3-pandas python3-numpy` (not in `apt.packages`; evaluator uses them). |
+| GitHub | Collaborator access to the five **private** `osamuzahid/*` remotes | SSH or HTTPS credentials. |
+| USD download | GitHub CLI **or** a browser | `gh` is used below. The tarball is Release **`v0.2.1`** on `social-nav-assets`. |
+
+### Machine this family was built and tested on
+
+Same lock `environment` block. A second Ubuntu is not required if this host matches.
+
+| Item | Value |
+|---|---|
+| OS | Ubuntu 24.04 (`noble`), x86_64 |
+| NVIDIA driver | 595.84 (minimum 595.58.03) |
+| Isaac Sim | 6.0.1-rc.7+release.42383.32955d8d.gl at `~/isaacsim` |
+| Python | 3.12.3 (system) |
+| pandas / numpy | 2.1.4 / 1.26.4 |
+| Nav2 | `ros-jazzy-navigation2` **1.3.12** (snapshot `jazzy/2026-06-18`) |
+| BehaviorTree.CPP | 4.9.0 |
+| Assimp | `assimp-utils` 5.3.1+ds-2build1 (convert path; not needed to run hops) |
+| OctoMap | `liboctomap-dev` 1.9.7+dfsg-3.1build3 |
+| lightsfm | `/usr/local/include/lightsfm` (revision unknown; include sha256 in the lock) |
+
+## Clone the family
+
+Private remotes (student account; later transfer to the lab org):
 
 ```bash
 mkdir -p ~/social-nav && cd ~/social-nav
-git clone --branch v0.2.5 git@github.com:osamuzahid/social-nav-platform.git
-git clone --branch v0.2.5 git@github.com:osamuzahid/hunav-isaac-wrapper-jazzy.git
-git clone --branch v0.2.5 git@github.com:osamuzahid/hunav-sim-jazzy.git
-git clone --branch v0.2.5 git@github.com:osamuzahid/esc-nav-jazzy.git
-git clone --branch v0.2.5 git@github.com:osamuzahid/social-nav-assets.git
+git clone --branch v0.2.6 git@github.com:osamuzahid/social-nav-platform.git
+git clone --branch v0.2.6 git@github.com:osamuzahid/hunav-isaac-wrapper-jazzy.git
+git clone --branch v0.2.6 git@github.com:osamuzahid/hunav-sim-jazzy.git
+git clone --branch v0.2.6 git@github.com:osamuzahid/esc-nav-jazzy.git
+git clone --branch v0.2.6 git@github.com:osamuzahid/social-nav-assets.git
 ```
 
 ```text
@@ -22,11 +63,9 @@ git clone --branch v0.2.5 git@github.com:osamuzahid/social-nav-assets.git
 └── social-nav-assets
 ```
 
-Exact SHAs: [components.lock.yaml](../components.lock.yaml) (`v0.2.5` matches). Isaac Sim is not in git. World and robot USDs ship as a checksummed tarball, not Git LFS.
+Do not clone `v0.2.4` (empty `CMAKE_BUILD_TYPE`; Isaac abort `PyFloat_Check` on `Agent.yaw`). Do not clone `v0.2.3` (snapshot signed with the live ROS keyring). Do not clone `v0.2.2` (unpinned apt).
 
 ## 1. System packages
-
-Isaac Sim must already be installed (default `~/isaacsim/python.sh`, or set `SOCIAL_NAV_ISAAC_PATH`).
 
 `--install-system-deps` installs the apt versions in
 [components.lock.yaml](../components.lock.yaml) (`apt.packages`) so the host
@@ -35,13 +74,13 @@ packages. The lock’s `ros_snapshot` is the archive that serves the ROS debs.
 That archive is signed by the ROS Snapshot builder key vendored at
 `config/apt/ros-snapshot.asc`, not by the live `packages.ros.org` keyring.
 
+Jazzy must already be on the machine (`/opt/ros/jazzy/setup.bash`). Bootstrap does not install Isaac Sim or lightsfm.
+
 ```bash
 cd social-nav-platform
 source /opt/ros/jazzy/setup.bash
 sudo ./scripts/bootstrap.sh --install-system-deps
 ```
-
-HuNav also needs **lightsfm** headers at `/usr/local/include/lightsfm` (build [robotics-upo/lightsfm](https://github.com/robotics-upo/lightsfm) and install into `/usr/local`).
 
 ## 2. Prebuilt USDs
 

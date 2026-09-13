@@ -5,7 +5,7 @@
 **Missing USDs.** Doctor prints `FAIL unpacked USDs missing`. Run `./scripts/unpack-assets.sh` with the tarball at `social-nav-assets/dist/prebuilt-assets-v0.1.0-candidate.tar.zst`.
 
 **Snapshot apt `NO_PUBKEY`.** `snapshots.ros.org` is not signed by
-`ros-archive-keyring.gpg`. Use family `v0.2.5` (or later). Bootstrap installs
+`ros-archive-keyring.gpg`. Use family `v0.2.6` (or `v0.2.5`). Bootstrap installs
 the vendored Snapshot builder key to `/usr/share/keyrings/ros-snapshot-keyring.gpg`.
 If `apt-get update` still fails, bootstrap removes
 `/etc/apt/sources.list.d/social-nav-ros-snapshot.list` so ordinary apt keeps

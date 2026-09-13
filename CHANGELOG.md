@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.2.6 — 2026-09-13
+
+Host prerequisites and the tested machine (Isaac VERSION, driver floor, Jazzy
+deb install, lightsfm `make install`) in `docs/installation.md`. Bootstrap still
+does not install those. Sibling SHAs are unchanged from `v0.2.5`.
+
 ## 0.2.5 — 2026-09-11
 
 `./scripts/build.sh` passes `-DCMAKE_BUILD_TYPE=Release` so `hunav_msgs`

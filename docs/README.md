@@ -4,10 +4,10 @@ Front door for the lab handover family. Sibling trees:
 
 | Lock key | Path (relative) | Tag |
 |---|---|---|
-| wrapper | `../hunav-isaac-wrapper-jazzy` | `v0.2.5` |
-| hunav | `../hunav-sim-jazzy` | `v0.2.5` |
-| esc | `../esc-nav-jazzy` | `v0.2.5` |
-| assets | `../social-nav-assets` | `v0.2.5` |
+| wrapper | `../hunav-isaac-wrapper-jazzy` | `v0.2.6` |
+| hunav | `../hunav-sim-jazzy` | `v0.2.6` |
+| esc | `../esc-nav-jazzy` | `v0.2.6` |
+| assets | `../social-nav-assets` | `v0.2.6` |
 
 Install: [installation.md](installation.md). Run: [quickstart.md](quickstart.md).
 Extend: [extending.md](extending.md). Exact SHAs: [components.lock.yaml](../components.lock.yaml).
