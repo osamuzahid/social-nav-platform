@@ -26,7 +26,7 @@ results: museum Reachy and hospital Stretch `metrics_cited.csv` only.
 
 ## Install
 
-Host pins (Ubuntu, driver, Isaac 6.0.1, Jazzy, lightsfm) and the machine this family was tested on: [docs/installation.md](docs/installation.md#host-prerequisites-install-by-hand). Sibling trees, USD tarball, overlay build: same file.
+Host pins, family tags, sibling trees, USD tarball, overlay build: [docs/installation.md](docs/installation.md).
 
 ```bash
 sudo ./scripts/bootstrap.sh --install-system-deps

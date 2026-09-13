@@ -1,9 +1,6 @@
 # Governance
 
-First release is **private** under [osamuzahid](https://github.com/osamuzahid)
-until transfer to the lab organisation (URL not assigned).
-
-| Tree | Private remote |
+| Tree | Remote |
 |---|---|
 | platform | https://github.com/osamuzahid/social-nav-platform |
 | wrapper | https://github.com/osamuzahid/hunav-isaac-wrapper-jazzy |

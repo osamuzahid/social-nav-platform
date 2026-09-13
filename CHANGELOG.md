@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 0.2.7 — 2026-09-13
+
+Family-tag guidance in `docs/installation.md`. Sibling SHAs are unchanged
+from `v0.2.6`.
+
 ## 0.2.6 — 2026-09-13
 
 Host prerequisites and the tested machine (Isaac VERSION, driver floor, Jazzy

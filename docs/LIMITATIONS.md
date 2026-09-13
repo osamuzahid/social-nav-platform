@@ -20,5 +20,4 @@
 - PhysX Stretch (`stretch_wheeled`) is rejected.
 - Simultaneous multi-robot episodes are out of scope.
 - Mixed HuNav behaviour trees are not scored (campaign crowds are type 2).
-- CUCR historical world SHAs, `lightsfm` git SHA, and lab org URLs stay
-  unknown.
+- CUCR historical world SHAs and the `lightsfm` git SHA stay unknown.

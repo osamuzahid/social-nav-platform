@@ -4,7 +4,7 @@ Supported runtime: **Ubuntu 24.04 x86-64**, **ROS 2 Jazzy**, **NVIDIA Isaac Sim 
 
 Bootstrap installs the lock apt set (Nav2 and related debs). It does **not** install the NVIDIA driver, Isaac Sim, ROS 2 itself, or lightsfm. Put those on the machine first.
 
-Exact sibling SHAs, apt pins, and host notes: [components.lock.yaml](../components.lock.yaml) (`v0.2.6` matches). Isaac Sim is not in git. World and robot USDs ship as a checksummed tarball, not Git LFS.
+Exact sibling SHAs, apt pins, and host notes: [components.lock.yaml](../components.lock.yaml) (`v0.2.7` matches). Isaac Sim is not in git. World and robot USDs ship as a checksummed tarball, not Git LFS.
 
 ## Host prerequisites (install by hand)
 
@@ -21,7 +21,7 @@ Do this before cloning. Doctor reports Isaac / driver / lightsfm / pandas / nump
 | ROS 2 | **Jazzy** at `/opt/ros/jazzy/setup.bash`. Python **3.12** | [Jazzy Ubuntu debs](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html) (`ros-jazzy-desktop` is enough). Nav2 **1.3.12** is then pinned by bootstrap from the lock snapshot, not from rolling `packages.ros.org`. |
 | lightsfm | Headers at `/usr/local/include/lightsfm` (`sfm.hpp`) | Header-only. Git SHA of the freeze install is **unknown** — do not guess one. Clone [robotics-upo/lightsfm](https://github.com/robotics-upo/lightsfm), then `make && sudo make install`. Doctor compares the include-tree sha256 in the lock as a note. |
 | pandas / numpy | Tested **2.1.4** / **1.26.4** | `sudo apt install python3-pandas python3-numpy` (not in `apt.packages`; evaluator uses them). |
-| GitHub | Collaborator access to the five **private** `osamuzahid/*` remotes | SSH or HTTPS credentials. |
+| GitHub | Collaborator access to the five remotes | SSH or HTTPS credentials. |
 | USD download | GitHub CLI **or** a browser | `gh` is used below. The tarball is Release **`v0.2.1`** on `social-nav-assets`. |
 
 ### Machine this family was built and tested on
@@ -41,17 +41,33 @@ Same lock `environment` block. A second Ubuntu is not required if this host matc
 | OctoMap | `liboctomap-dev` 1.9.7+dfsg-3.1build3 |
 | lightsfm | `/usr/local/include/lightsfm` (revision unknown; include sha256 in the lock) |
 
-## Clone the family
+## Family tags
 
-Private remotes (student account; later transfer to the lab org):
+The five remotes are one product. A **family tag** is the same name on all
+five (`v0.2.7` today) so a clone is a matched set. Doctor checks the sibling
+**SHAs** in [components.lock.yaml](../components.lock.yaml), not the tag
+object. This is a checkout pin, not an API version.
+
+**Why they exist.** `build.sh` and `--execute` assume the four siblings are
+exactly those lock SHAs. The tag is how you get that set without picking
+commits by hand.
+
+**Install.** Clone every sibling at the tag in the commands below. Do not mix
+tags. Do not clone `main` on one tree and a tag on another. After install,
+stay on that checkout — day-to-day hops do not need other tags.
+
+**Not the family tag.** The USD tarball is GitHub Release **`v0.2.1`** on
+`social-nav-assets`. That number is the world/robot bundle.
+
+## Clone the family
 
 ```bash
 mkdir -p ~/social-nav && cd ~/social-nav
-git clone --branch v0.2.6 git@github.com:osamuzahid/social-nav-platform.git
-git clone --branch v0.2.6 git@github.com:osamuzahid/hunav-isaac-wrapper-jazzy.git
-git clone --branch v0.2.6 git@github.com:osamuzahid/hunav-sim-jazzy.git
-git clone --branch v0.2.6 git@github.com:osamuzahid/esc-nav-jazzy.git
-git clone --branch v0.2.6 git@github.com:osamuzahid/social-nav-assets.git
+git clone --branch v0.2.7 git@github.com:osamuzahid/social-nav-platform.git
+git clone --branch v0.2.7 git@github.com:osamuzahid/hunav-isaac-wrapper-jazzy.git
+git clone --branch v0.2.7 git@github.com:osamuzahid/hunav-sim-jazzy.git
+git clone --branch v0.2.7 git@github.com:osamuzahid/esc-nav-jazzy.git
+git clone --branch v0.2.7 git@github.com:osamuzahid/social-nav-assets.git
 ```
 
 ```text

@@ -4,10 +4,10 @@ Front door for the lab handover family. Sibling trees:
 
 | Lock key | Path (relative) | Tag |
 |---|---|---|
-| wrapper | `../hunav-isaac-wrapper-jazzy` | `v0.2.6` |
-| hunav | `../hunav-sim-jazzy` | `v0.2.6` |
-| esc | `../esc-nav-jazzy` | `v0.2.6` |
-| assets | `../social-nav-assets` | `v0.2.6` |
+| wrapper | `../hunav-isaac-wrapper-jazzy` | `v0.2.7` |
+| hunav | `../hunav-sim-jazzy` | `v0.2.7` |
+| esc | `../esc-nav-jazzy` | `v0.2.7` |
+| assets | `../social-nav-assets` | `v0.2.7` |
 
 Install: [installation.md](installation.md). Run: [quickstart.md](quickstart.md).
 Extend: [extending.md](extending.md). Exact SHAs: [components.lock.yaml](../components.lock.yaml).
@@ -25,8 +25,7 @@ Fourteen IDs `{world}-{robot}-{esc|nav2}`:
 - small_warehouse-reachy
 
 Git example results: museum Reachy and hospital Stretch `metrics_cited.csv`
-only. The other five pairs are named config. Full 14 CSVs stay the private
-campaign release.
+only. The other five pairs are named config.
 
 ## Run lifecycle
 
