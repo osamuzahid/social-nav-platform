@@ -21,7 +21,7 @@ Do this before cloning. Doctor reports Isaac / driver / lightsfm / pandas / nump
 | ROS 2 | **Jazzy** at `/opt/ros/jazzy/setup.bash`. Python **3.12** | [Jazzy Ubuntu debs](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html) (`ros-jazzy-desktop` is enough). Nav2 **1.3.12** is then pinned by bootstrap from the lock snapshot, not from rolling `packages.ros.org`. |
 | lightsfm | Headers at `/usr/local/include/lightsfm` (`sfm.hpp`) | Header-only. Git SHA of the freeze install is **unknown** — do not guess one. Clone [robotics-upo/lightsfm](https://github.com/robotics-upo/lightsfm), then `make && sudo make install`. Doctor compares the include-tree sha256 in the lock as a note. |
 | pandas / numpy | Tested **2.1.4** / **1.26.4** | `sudo apt install python3-pandas python3-numpy` (not in `apt.packages`; evaluator uses them). |
-| GitHub | Collaborator access to the five remotes | SSH or HTTPS credentials. |
+| GitHub | The five remotes are **public** | SSH or HTTPS. |
 | USD download | GitHub CLI **or** a browser | `gh` is used below. The tarball is Release **`v0.2.1`** on `social-nav-assets`. |
 
 ### Machine this family was built and tested on
@@ -55,6 +55,12 @@ commits by hand.
 **Install.** Clone every sibling at the tag in the commands below. Do not mix
 tags. Do not clone `main` on one tree and a tag on another. After install,
 stay on that checkout — day-to-day hops do not need other tags.
+
+**When to tag.** Move or cut the family tag when `git clone --branch` must
+include the change (lock sibling SHAs, or front-door install docs). Same
+name on all five remotes. Sibling SHAs unchanged: retag platform only.
+Sibling SHAs changed: new tag name on all five and update the lock. Do not
+mix tags. Do not clone `v0.2.4` / `v0.2.3` / `v0.2.2`.
 
 **Not the family tag.** The USD tarball is GitHub Release **`v0.2.1`** on
 `social-nav-assets`. That number is the world/robot bundle.

@@ -4,8 +4,9 @@
 
 ## 0.2.7 — 2026-09-13
 
-Family-tag guidance in `docs/installation.md`. Sibling SHAs are unchanged
-from `v0.2.6`.
+Family-tag guidance and when-to-tag rules in `docs/installation.md`.
+Front-door README: dissertation, modular foundation, how to extend.
+Sibling SHAs are unchanged from `v0.2.6`.
 
 ## 0.2.6 — 2026-09-13
 

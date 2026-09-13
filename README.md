@@ -1,9 +1,25 @@
 # social-nav-platform
 
-## Origin
+This repository is the front door for a five-repo family built for the
+dissertation **The Role of Simulation for Supporting Social Robot Navigation
+Research and Development: Isaac Sim**. Social robot navigation is motion among
+people that follows social norms, not obstacle avoidance alone. The family
+hosts NVIDIA Isaac Sim with ROS 2, HuNav pedestrians, and two planners (Nav2
+and CUCR ESC) across seven indoor worlds. It provides a foundation for social robot navigation research and
+development in Isaac Sim. The design is modular: worlds, robots, crowds, and
+planners live in separate packages. Add a world, robot, crowd, or planner by
+registering descriptors and sibling assets; see
+[docs/extending.md](docs/extending.md).
 
-This repository is **original** to the handover family (experiment descriptors,
-supervisor, Nav2/ESC profiles, campaign crowds, CLI). It is not a fork.
+This tree holds experiment descriptors, Nav2/ESC profiles, campaign crowds,
+lab robot YAML, and the `social-nav` CLI. It does **not** own CUCR USD
+binaries (see `social-nav-assets`) or the generic Isaac/HuNav runtime
+(`hunav-isaac-wrapper-jazzy`). NVIDIA Isaac Sim is runtime-only.
+
+Fourteen named experiments (seven CUCR worlds × ESC then Nav2). Git example
+results: museum Reachy and hospital Stretch `metrics_cited.csv` only.
+
+## Origin
 
 Vendored ROS messages (not authored here):
 
@@ -13,16 +29,6 @@ Vendored ROS messages (not authored here):
 Sibling trees **are** derived: wrapper and HuNav from robotics-upo, ESC from
 Cardiff, worlds/robots from CUCR / Hello Robot / Pollen. Those READMEs state
 the upstream URL and why the tree exists.
-
-Front door for the lab handover family: experiment descriptors, Nav2/ESC
-profiles, campaign crowds, lab robot YAML, and a `social-nav` CLI.
-
-This tree does **not** own CUCR USD binaries (see `social-nav-assets`) or the
-generic Isaac/HuNav runtime (`hunav-isaac-wrapper-jazzy`). NVIDIA Isaac Sim is
-runtime-only.
-
-Fourteen named experiments (seven CUCR worlds × ESC then Nav2). Git example
-results: museum Reachy and hospital Stretch `metrics_cited.csv` only.
 
 ## Install
 
