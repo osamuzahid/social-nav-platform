@@ -67,6 +67,16 @@ def test_example_results_present() -> None:
         "museum_reachy_nav2",
         "hospital_stretch_esc",
         "hospital_stretch_nav2",
+        "office_reachy_esc",
+        "office_reachy_nav2",
+        "bookstore_stretch_esc",
+        "bookstore_stretch_nav2",
+        "house_museum_reachy_esc",
+        "house_museum_reachy_nav2",
+        "small_house_stretch_esc",
+        "small_house_stretch_nav2",
+        "small_warehouse_reachy_esc",
+        "small_warehouse_reachy_nav2",
     ):
         csv = ROOT / "results" / "examples" / folder / "metrics_cited.csv"
         assert csv.is_file()

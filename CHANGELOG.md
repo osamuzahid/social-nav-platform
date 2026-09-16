@@ -6,7 +6,8 @@
 
 Family-tag guidance and when-to-tag rules in `docs/installation.md`.
 Front-door README: dissertation, modular foundation, how to extend.
-Sibling SHAs are unchanged from `v0.2.6`.
+Git example results: all fourteen campaign `metrics_cited.csv` files under
+`results/examples/`. Sibling SHAs are unchanged from `v0.2.6`.
 
 ## 0.2.6 — 2026-09-13
 

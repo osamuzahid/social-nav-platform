@@ -24,8 +24,8 @@ Fourteen IDs `{world}-{robot}-{esc|nav2}`:
 - small_house-stretch
 - small_warehouse-reachy
 
-Git example results: museum Reachy and hospital Stretch `metrics_cited.csv`
-only. The other five pairs are named config.
+Git example results: all fourteen `metrics_cited.csv` files under
+`results/examples/`.
 
 ## Run lifecycle
 

@@ -17,7 +17,7 @@ binaries (see `social-nav-assets`) or the generic Isaac/HuNav runtime
 (`hunav-isaac-wrapper-jazzy`). NVIDIA Isaac Sim is runtime-only.
 
 Fourteen named experiments (seven CUCR worlds × ESC then Nav2). Git example
-results: museum Reachy and hospital Stretch `metrics_cited.csv` only.
+results: all fourteen `metrics_cited.csv` files under `results/examples/`.
 
 ## Origin
 
@@ -72,7 +72,7 @@ config/crowds/        <world>_crowd.yaml (A1/A2 moving, A3–A5 standing)
 config/robots/        stretch and reachy robot.yaml
 config/planners/      Smac 2D Nav2 + ESC ExtendedSocialComfort
 src/vendor/           people_msgs and pedsim_msgs (BSD licence files)
-results/examples/     museum Reachy + hospital Stretch citeable CSVs
+results/examples/     fourteen campaign `metrics_cited.csv` files
 ```
 
 ## Licence
